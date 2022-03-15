@@ -219,35 +219,38 @@ class Tennis{
 
 const myTennis = new Tennis(1);
 
-async function start_game(tennisClass){
+ function start_game(tennisClass){
     let endGame = false;
         //tennisClass.printField();
-        const a = await tennisClass.moveBall();
-        const b = await tennisClass.movePlayer2();
-        const t = await tennisClass.printField()
+        const a =  tennisClass.moveBall();
+        const b =  tennisClass.movePlayer2();
+        const t =  tennisClass.printField()
+        //
         process.stdin.on('keypress', async (ch, key) =>
-        {
-            if (key && key.ctrl && key.name == 'c') {
-                tennisClass._endGameSet = true;
-                endGame = false;
-                clearInterval(tennisClass._ballPos[4]);
-                clearInterval(tennisClass._player2Cfg[2]);
-                clearInterval(tennisClass.timerId);
-            process.stdin.pause();
-            }
-            else
             {
-                if(tennisClass._endGameSet){
-                    if(key.name=='Y'||key.name=='y'){return;}
-                    else{return;}
+                if (key && key.ctrl && key.name == 'c') {
+                    tennisClass._endGameSet = true;
+                    endGame = false;
+                    clearInterval(tennisClass._ballPos[4]);
+                    clearInterval(tennisClass._player2Cfg[2]);
+                    clearInterval(tennisClass.timerId);
+                process.stdin.pause();
                 }
-                const c = await tennisClass.movePlayer1(key.name);
+                else
+                {
+                    if(tennisClass._endGameSet){
+                        if(key.name=='Y'||key.name=='y'){endGame=true; process.stdin.pause(); return;}
+                        //else{return;}
+                    }
+                    const c = await tennisClass.movePlayer1(key.name);
+                }
             }
-        });
-        
+        )
+        //
         process.stdin.setRawMode(true);
         process.stdin.resume();
 }
+
 keypress(process.stdin);
 start_game(myTennis);
 /*  const rl = readline.createInterface({
