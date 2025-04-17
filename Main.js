@@ -247,7 +247,10 @@ const myTennis = new Tennis(1);
             }
         )
         //
-        process.stdin.setRawMode(true);
+        if (process.stdin.isTTY) {
+            process.stdin.setRawMode(true);
+        }
+        //process.stdin.setRawMode(true);
         process.stdin.resume();
 }
 
